@@ -8,39 +8,46 @@
 # If they run out of turns, provide feedback to the player. 
 # Include two different difficulty levels (e.g., 10 guesses in easy mode, only 5 guesses in hard mode).
 from art import logo
+from replit import clear
 import random
 
-print(logo)
-print("Welcome to the Number Guessing Game!")
-print("I'm thinking of a number between 1 and 100.")
+def main():
+  print(logo)
+  print("Welcome to the Number Guessing Game!")
+  print("I'm thinking of a number between 1 and 100.")
 
 
-number=random.randint(1,100)
-print(number)
-decide=input("Choose difficulty. Type 'hard' or 'easy': ").lower()
-if decide=="easy":
-  attempts=10
-else:
-  attempts=5
-
-print(f"You have {attempts} left to guess the number.")
-guess=int(input("Make a guess: "))
-
-def aiming(number, guess, attempts):
-  if guess<number:
-    attempts-=1
-    print(f"Too low. You have {attempts} left. Try again! ")
-  elif guess>number:
-    attempts-=1
-    print(f"Too high. You have {attempts} left. Try again! ")
+  number=random.randint(1,100)
+  decide=input("Choose difficulty. Type 'hard' or 'easy': ").lower()
+  if decide=="easy":
+    attempts=10
   else:
-    print(f"Nice job! You guessed it!")
-    attempts=0
-  return attempts
+    attempts=5
 
-while attempts!=0:
-  attempts=aiming(number, guess, attempts)
-  if guess!=0:
+  print(f"You have {attempts} left to guess the number.")
+
+
+  def aiming(number, attempts):
     guess=int(input("Make a guess: "))
+    if guess<number:
+      attempts-=1
+      print(f"Too low. You have {attempts} left. ")
+    elif guess>number:
+      attempts-=1
+      print(f"Too high. You have {attempts} left. ")
+    else:
+      print(f"Nice job! You guessed it!")
+      attempts=0
+    return attempts
 
+  while attempts!=0:
+    attempts=aiming(number, attempts)
 
+  again=input("Want to start again? Type 'yes' or 'no' ").lower()
+  if again=="yes":
+    clear()
+    main()
+  else:
+    exit("Game over.")
+
+main()
